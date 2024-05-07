@@ -6,21 +6,24 @@ from bson import ObjectId
 
 router = APIRouter()
 
-@router.post("/items")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_item(item: Item):
-    new_item = await db.items.insert_one(item.dict())
+    db.items.insert_one(item.dict())
 
-@router.get("/items")
+@router.get("/")
 async def get_items():
     items = list_serial(db.items.find())
     return items
 
-@router.put("/items/{id}")
-async def put_items(id: str, item: Item):
-    db.items.find_one_and_update({"_id": ObjectId(id)},{"$set":item.dict()}
+@router.put("/{id}", response_model=Item)
+async def update_item(id: str, item: Item):
+    db.items.find_one_and_update(
+        {"_id": ObjectId(id)},
+        {"$set": item.dict()},
+        return_document=True
     )
 
-@router.delete("/items/{id}")
-async def delete_item(id: str):
-    db.items.find_one_and_delete({"_id":ObjectId(id)})
 
+@router.delete('/{id}')
+async def delete_item(id: str):
+     db.items.find_one_and_delete({"_id": ObjectId(id)})

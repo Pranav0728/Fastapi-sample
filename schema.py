@@ -1,9 +1,7 @@
 def individual_serial(item)->dict:
     return{
         'id': str(item["_id"]),
-        'name': item['name'],
-        'description':item['description'],
-        'price': str(item['price']) 
+        'todo': item['todo'],
     }
 
 def list_serial(items)->list:

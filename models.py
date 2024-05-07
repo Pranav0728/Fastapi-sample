@@ -1,9 +1,7 @@
 from pydantic import BaseModel
 
 class Item(BaseModel):
-    name: str
-    description: str
-    price:float
+    todo: str
 
     class Config:
          from_attributes = True
